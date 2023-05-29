@@ -10,6 +10,8 @@ const MovieNotFoundMessage = 'Фильм с данным id не найден.';
 const UserNotFoundMessage = 'Пользователь не найден.';
 const BadRequestMessage = 'Были введены некорректные данные';
 const ConflictMessage = 'Пользователь уже существует';
+const ServerNotFoundMessage = 'Сервер не найден.';
+const AuthMessage = 'Необходима авторизация.';
 
 module.exports = {
   NotFound,
@@ -23,4 +25,6 @@ module.exports = {
   BadRequestMessage,
   ConflictMessage,
   UserNotFoundMessage,
+  ServerNotFoundMessage,
+  AuthMessage,
 };
