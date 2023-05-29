@@ -8,7 +8,7 @@ const routes = require('./routes');
 const auth = require('./middlewares/auth');
 const { createUser, login } = require('./controllers/users');
 // eslint-disable-next-line import/no-unresolved
-const { errorHandler } = require('./middlewares/ErrorHandler');
+const { errorHandler } = require('./middlewares/errorHandler');
 const { createUserValidation, loginValidation } = require('./utils/validations');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
