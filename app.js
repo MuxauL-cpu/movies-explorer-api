@@ -8,8 +8,6 @@ const { errorHandler } = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./utils/limiter');
 const { endpoint } = require('./utils/config');
-const { ServerNotFoundMessage } = require('./utils/constants');
-const NotFoundError = require('./errors/NotFoundError');
 
 const { PORT = 3000 } = process.env;
 require('dotenv').config();
@@ -27,10 +25,6 @@ app.use(limiter);
 app.use(helmet());
 
 app.use(routes);
-
-app.use((req, res, next) => {
-  next(new NotFoundError(ServerNotFoundMessage));
-});
 
 app.use(errorLogger);
 app.use(errors());
