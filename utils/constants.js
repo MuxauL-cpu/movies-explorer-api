@@ -5,6 +5,12 @@ const AuthError = 401;
 const Conflict = 409;
 const regexUrl = /^https?:\/\/(www\.)?[a-zA-Z\d]+\.[\w\-._~:/?#[\]@!$&'()*+,;=]{2,}#?$/i;
 
+const ForbiddenMessage = 'Ошибка доступа, нельзя удалять чужие фильмы.';
+const MovieNotFoundMessage = 'Фильм с данным id не найден.';
+const UserNotFoundMessage = 'Пользователь не найден.';
+const BadRequestMessage = 'Были введены некорректные данные';
+const ConflictMessage = 'Пользователь уже существует';
+
 module.exports = {
   NotFound,
   BadRequest,
@@ -12,4 +18,9 @@ module.exports = {
   Forbidden,
   Conflict,
   regexUrl,
+  ForbiddenMessage,
+  MovieNotFoundMessage,
+  BadRequestMessage,
+  ConflictMessage,
+  UserNotFoundMessage,
 };

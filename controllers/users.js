@@ -6,6 +6,12 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
+const ConflictError = require('../errors/ConflictError');
+const {
+  BadRequestMessage,
+  ConflictMessage,
+  UserNotFoundMessage,
+} = require('../utils/constants');
 
 const createUser = async (req, res, next) => {
   const {
@@ -27,7 +33,13 @@ const createUser = async (req, res, next) => {
           res.status(201).send(newUser);
         })
         .catch((err) => {
-          next(err);
+          if (err instanceof Error.ValidationError) {
+            next(new BadRequestError(BadRequestMessage));
+          } else if (err.code === 11000) {
+            next(new ConflictError(ConflictMessage));
+          } else {
+            next(err);
+          }
         });
     });
 };
@@ -35,7 +47,7 @@ const createUser = async (req, res, next) => {
 const getCurrentUser = async (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
-      throw new NotFoundError('Пользователь не найден.');
+      throw new NotFoundError(UserNotFoundMessage);
     })
     .then((user) => {
       res.status(200).send(user);
@@ -54,13 +66,15 @@ const updateUserInfo = async (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь не найден.');
+        throw new NotFoundError(UserNotFoundMessage);
       }
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err instanceof Error.CastError) {
-        next(new BadRequestError('Введены неккоректные данные.'));
+      if (err.code === 11000) {
+        next(new ConflictError(ConflictMessage));
+      } else if (err instanceof Error.CastError) {
+        next(new BadRequestError(BadRequestMessage));
       } else {
         next(err);
       }
