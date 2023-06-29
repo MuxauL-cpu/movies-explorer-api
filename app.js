@@ -8,6 +8,7 @@ const { errorHandler } = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./utils/limiter');
 const { endpoint } = require('./utils/config');
+const cors = require('./middlewares/cors');
 
 const { PORT = 3000 } = process.env;
 require('dotenv').config();
@@ -19,6 +20,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cors);
 app.use(requestLogger);
 
 app.use(limiter);
